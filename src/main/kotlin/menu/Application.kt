@@ -1,5 +1,7 @@
 package menu
 
+import menu.view.MenuView
+
 fun main() {
-    // TODO: 프로그램 구현
+    MenuView()
 }
