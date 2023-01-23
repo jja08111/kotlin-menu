@@ -25,6 +25,11 @@ class MenuView(
     }
 
     private fun printResult(stage: ResultStage) {
+        output.printResult(
+            categories = stage.categories,
+            coaches = stage.coaches,
+            suggestions = stage.suggestions
+        )
     }
 
     private fun updateUi(uiState: MenuUiState) {
