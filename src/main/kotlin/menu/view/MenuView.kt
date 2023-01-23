@@ -19,6 +19,9 @@ class MenuView(
     }
 
     private fun inputCannotEatFoods(stage: CannotEatInputStage) {
+        output.printInputCannotEatMenus(stage.currentCoachName)
+        val input = Console.readLine().trim()
+        viewModel.handleCannotEatMenus(input = input, stage = stage)
     }
 
     private fun printResult(stage: ResultStage) {

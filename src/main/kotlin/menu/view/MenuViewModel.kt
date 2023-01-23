@@ -23,6 +23,63 @@ class MenuViewModel {
         }
     }
 
+    fun handleCannotEatMenus(input: String, stage: CannotEatInputStage) {
+        val menus = input.split(",")
+        if (input.isNotEmpty() && !checkMenuInput(menus)) {
+            return
+        }
+        reduce {
+            if (stage.isLastCoach) {
+                it.copy(stage = generateResult(stage))
+            } else {
+                it.copy(stage = stage.copyForNextCoach(menus))
+            }
+        }
+    }
+
+    private fun generateResult(stage: CannotEatInputStage): ResultStage {
+        val categories = generateCategories()
+        val suggestions = generateSuggestions(stage, categories)
+
+        return ResultStage(
+            categories = categories,
+            coaches = stage.coaches.map { it.name },
+            suggestions = suggestions
+        )
+    }
+
+    private fun generateCategories(): List<Category> {
+        val allCategory = Category.values()
+        val targetSize = Weekday.values().size
+        val categories = mutableListOf<Category>()
+
+        while (categories.size < targetSize) {
+            val category = allCategory[Randoms.pickNumberInRange(1, allCategory.size) - 1]
+            if (categories.count { it == category } == 2) {
+                continue
+            }
+            categories += category
+        }
+        return categories
+    }
+
+    private fun generateSuggestions(
+        stage: CannotEatInputStage,
+        categories: List<Category>
+    ): List<List<String>> {
+        val suggestions = List(stage.coaches.size) { mutableListOf<String>() }
+
+        categories.forEach { category ->
+            stage.coaches.forEachIndexed { index, coach ->
+                val eatableMenus = category.menus.filter { menu ->
+                    coach.canEat(menu) && !suggestions[index].contains(menu)
+                }
+                val menu = Randoms.shuffle(eatableMenus)[0]
+                suggestions[index].add(menu)
+            }
+        }
+        return suggestions
+    }
 
     private fun checkNameInput(names: List<String>): Boolean {
         return try {
@@ -44,6 +101,29 @@ class MenuViewModel {
     private fun checkCoachCount(count: Int) {
         if (count < 2 || count > 5) {
             throw IllegalArgumentException("[ERROR] 코치는 최소 2명, 최대 5명까지 식사를 함께 해야합니다.\n")
+        }
+    }
+
+    private fun checkMenuInput(menus: List<String>): Boolean {
+        return try {
+            menus.forEach(::checkMenuName)
+            checkCannotEatMenuCount(menus.size)
+            true
+        } catch (e: IllegalArgumentException) {
+            reduce { it.copy(errorMessage = e.message!!) }
+            false
+        }
+    }
+
+    private fun checkMenuName(name: String) {
+        if (!allMenus.contains(name)) {
+            throw IllegalArgumentException("[ERROR] 해당 메뉴는 존재하지 않습니다.\n")
+        }
+    }
+
+    private fun checkCannotEatMenuCount(count: Int) {
+        if (count < 0 || count > 2) {
+            throw IllegalArgumentException("[ERROR] 각 코치는 최소 0개, 최대 2개의 못 먹는 메뉴가 있어야 합니다.\n")
         }
     }
 
