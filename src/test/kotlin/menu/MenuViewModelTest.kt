@@ -60,4 +60,48 @@ class MenuViewModelTest {
         assert(uiState.stage is CoachNameInputStage)
     }
 
+    @Nested
+    inner class CannotEatMenuTest {
+
+        private val coaches = listOf("토비", "만두")
+
+        @BeforeEach
+        fun setUp() {
+            viewModel.handleUserNames(coaches.reduce { acc, s -> "$acc,$s" })
+        }
+
+        @Test
+        fun `should have ResultStage when input of cannot eat menu is valid`() {
+            repeat(coaches.size) {
+                viewModel.handleCannotEatMenus(
+                    allMenus.first(),
+                    uiState.stage as CannotEatInputStage
+                )
+            }
+            assert(uiState.stage is ResultStage)
+        }
+
+        @Test
+        fun `should have ResultStage when input of cannot eat menu is empty`() {
+            repeat(coaches.size) {
+                viewModel.handleCannotEatMenus(
+                    "",
+                    uiState.stage as CannotEatInputStage
+                )
+            }
+            assert(uiState.stage is ResultStage)
+        }
+
+        @Test
+        fun `should have errorMessage when having over 2`() {
+            repeat(coaches.size) {
+                viewModel.handleCannotEatMenus(
+                    allMenus.reduce { acc, s -> "$acc,$s" },
+                    uiState.stage as CannotEatInputStage
+                )
+            }
+            assert(uiState.errorMessage != null)
+            assert(uiState.stage is CannotEatInputStage)
+        }
+    }
 }
