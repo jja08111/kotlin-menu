@@ -92,13 +92,13 @@ class MenuViewModel {
 
     private fun checkCoachName(name: String) {
         if (name.length < 2 || name.length > 4) {
-            throw IllegalArgumentException("[ERROR] 코치의 이름은 최소 2글자, 최대 4글자입니다.\n")
+            throw IllegalArgumentException("코치의 이름은 최소 2글자, 최대 4글자입니다.")
         }
     }
 
     private fun checkCoachCount(count: Int) {
         if (count < 2 || count > 5) {
-            throw IllegalArgumentException("[ERROR] 코치는 최소 2명, 최대 5명까지 식사를 함께 해야합니다.\n")
+            throw IllegalArgumentException("코치는 최소 2명, 최대 5명까지 식사를 함께 해야합니다.")
         }
     }
 
@@ -115,13 +115,13 @@ class MenuViewModel {
 
     private fun checkMenuName(name: String) {
         if (!allMenus.contains(name)) {
-            throw IllegalArgumentException("[ERROR] 해당 메뉴는 존재하지 않습니다.\n")
+            throw IllegalArgumentException("해당 메뉴는 존재하지 않습니다.")
         }
     }
 
     private fun checkCannotEatMenuCount(count: Int) {
         if (count < 0 || count > 2) {
-            throw IllegalArgumentException("[ERROR] 각 코치는 최소 0개, 최대 2개의 못 먹는 메뉴가 있어야 합니다.\n")
+            throw IllegalArgumentException("각 코치는 최소 0개, 최대 2개의 못 먹는 메뉴가 있어야 합니다.")
         }
     }
 
