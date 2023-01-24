@@ -12,26 +12,26 @@ sealed class MenuStage
 object CoachNameInputStage : MenuStage()
 
 data class CannotEatInputStage(
-    val coachIndex: Int,
+    val currentCoachIndex: Int,
     val coaches: List<Coach>
 ) : MenuStage() {
 
     private val currentCoach: Coach
-        get() = coaches[coachIndex]
+        get() = coaches[currentCoachIndex]
 
     val currentCoachName: String
         get() = currentCoach.name
 
     val isLastCoach: Boolean
-        get() = coaches.size - 1 == coachIndex
+        get() = coaches.size - 1 == currentCoachIndex
 
     fun copyForNextCoach(cannotEatMenus: List<String>): CannotEatInputStage {
         check(!isLastCoach)
         val newCoaches = coaches.toMutableList()
-        newCoaches[coachIndex] = currentCoach.copy(cannotEatMenus = cannotEatMenus)
+        newCoaches[currentCoachIndex] = currentCoach.copy(cannotEatMenus = cannotEatMenus)
 
         return CannotEatInputStage(
-            coachIndex = coachIndex + 1,
+            currentCoachIndex = currentCoachIndex + 1,
             coaches = newCoaches
         )
     }

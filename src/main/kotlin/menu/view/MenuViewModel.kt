@@ -19,7 +19,7 @@ class MenuViewModel {
         }
         reduce {
             val coaches = names.map { name -> Coach(name = name) }
-            it.copy(stage = CannotEatInputStage(coachIndex = 0, coaches = coaches))
+            it.copy(stage = CannotEatInputStage(currentCoachIndex = 0, coaches = coaches))
         }
     }
 
