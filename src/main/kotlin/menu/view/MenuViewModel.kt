@@ -6,6 +6,7 @@ import menu.core.Observable
 import menu.model.Category
 import menu.model.Weekday
 import menu.model.allMenus
+import menu.util.pickRandomCategory
 
 class MenuViewModel {
 
@@ -49,12 +50,11 @@ class MenuViewModel {
     }
 
     private fun generateCategories(): List<Category> {
-        val allCategory = Category.values()
         val targetSize = Weekday.values().size
         val categories = mutableListOf<Category>()
 
         while (categories.size < targetSize) {
-            val category = allCategory[Randoms.pickNumberInRange(1, allCategory.size) - 1]
+            val category = pickRandomCategory()
             if (categories.count { it == category } == 2) {
                 continue
             }
