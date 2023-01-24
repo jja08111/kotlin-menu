@@ -11,7 +11,7 @@ object MenuInputView {
 
     fun inputCannotEatMenus() : List<String> {
         val input = Console.readLine()
-        if (input.isEmpty()) {
+        if (input.isBlank()) {
             return emptyList()
         }
         return input.split(",")
