@@ -1,7 +1,5 @@
 package menu.view
 
-import camp.nextstep.edu.missionutils.Console
-
 class MenuView(
     private val inputView: MenuInputView = MenuInputView,
     private val outputView: MenuOutputView = MenuOutputView,
