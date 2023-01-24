@@ -3,6 +3,7 @@ package menu.view
 import camp.nextstep.edu.missionutils.Console
 
 class MenuView(
+    private val inputView: MenuInputView = MenuInputView,
     private val outputView: MenuOutputView = MenuOutputView,
     private val viewModel: MenuViewModel = MenuViewModel()
 ) {
@@ -14,14 +15,14 @@ class MenuView(
 
     private fun inputUserNames() {
         outputView.printInputUsers()
-        val input = Console.readLine()
-        viewModel.handleUserNames(input)
+        val names = inputView.inputCoachNames()
+        viewModel.handleUserNames(names)
     }
 
     private fun inputCannotEatFoods(stage: CannotEatInputStage) {
         outputView.printInputCannotEatMenus(stage.currentCoachName)
-        val input = Console.readLine().trim()
-        viewModel.handleCannotEatMenus(input = input, stage = stage)
+        val menus = inputView.inputCannotEatMenus()
+        viewModel.handleCannotEatMenus(menus = menus, stage = stage)
     }
 
     private fun printResult(stage: ResultStage) {

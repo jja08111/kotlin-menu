@@ -28,34 +28,34 @@ class MenuViewModelTest {
 
     @Test
     fun `should move uiState to CannotEatInputStage when names is valid`() {
-        viewModel.handleUserNames("토비,만두")
+        viewModel.handleUserNames(listOf("토비", "만두"))
         assert(uiState.stage is CannotEatInputStage)
     }
 
     @Test
     fun `should have error when name is too long`() {
-        viewModel.handleUserNames("긴이름이에요,토비")
+        viewModel.handleUserNames(listOf("긴이름이에요", "토비"))
         assert(uiState.errorMessage != null)
         assert(uiState.stage is CoachNameInputStage)
     }
 
     @Test
     fun `should have error when name is too short`() {
-        viewModel.handleUserNames("김,토비")
+        viewModel.handleUserNames(listOf("김", "토비"))
         assert(uiState.errorMessage != null)
         assert(uiState.stage is CoachNameInputStage)
     }
 
     @Test
     fun `should have error when person count is over five`() {
-        viewModel.handleUserNames("스티,토비,만두,어쩌구,저쩌구,스키")
+        viewModel.handleUserNames(listOf("스티", "토비", "만두", "어쩌구", "저쩌구", "스키"))
         assert(uiState.errorMessage != null)
         assert(uiState.stage is CoachNameInputStage)
     }
 
     @Test
     fun `should have error when person count is lower than two`() {
-        viewModel.handleUserNames("스티")
+        viewModel.handleUserNames(listOf("스티"))
         assert(uiState.errorMessage != null)
         assert(uiState.stage is CoachNameInputStage)
     }
@@ -67,14 +67,14 @@ class MenuViewModelTest {
 
         @BeforeEach
         fun setUp() {
-            viewModel.handleUserNames(coaches.reduce { acc, s -> "$acc,$s" })
+            viewModel.handleUserNames(coaches)
         }
 
         @Test
         fun `should have ResultStage when input of cannot eat menu is valid`() {
             repeat(coaches.size) {
                 viewModel.handleCannotEatMenus(
-                    allMenus.first(),
+                    listOf(allMenus.first()),
                     uiState.stage as CannotEatInputStage
                 )
             }
@@ -85,7 +85,7 @@ class MenuViewModelTest {
         fun `should have ResultStage when input of cannot eat menu is empty`() {
             repeat(coaches.size) {
                 viewModel.handleCannotEatMenus(
-                    "",
+                    emptyList(),
                     uiState.stage as CannotEatInputStage
                 )
             }
@@ -96,7 +96,7 @@ class MenuViewModelTest {
         fun `should have errorMessage when having over 2`() {
             repeat(coaches.size) {
                 viewModel.handleCannotEatMenus(
-                    allMenus.reduce { acc, s -> "$acc,$s" },
+                    allMenus,
                     uiState.stage as CannotEatInputStage
                 )
             }

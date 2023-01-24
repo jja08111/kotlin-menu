@@ -13,8 +13,7 @@ class MenuViewModel {
     private val _uiState = MutableObservable(MenuUiState())
     val uiState: Observable<MenuUiState> = _uiState
 
-    fun handleUserNames(input: String) {
-        val names = input.split(",")
+    fun handleUserNames(names: List<String>) {
         if (!checkNameInput(names)) {
             return
         }
@@ -24,9 +23,8 @@ class MenuViewModel {
         }
     }
 
-    fun handleCannotEatMenus(input: String, stage: CannotEatInputStage) {
-        val menus = input.split(",")
-        if (input.isNotEmpty() && !checkMenuInput(menus)) {
+    fun handleCannotEatMenus(menus: List<String>, stage: CannotEatInputStage) {
+        if (menus.isNotEmpty() && !checkMenuInput(menus)) {
             return
         }
         reduce {
