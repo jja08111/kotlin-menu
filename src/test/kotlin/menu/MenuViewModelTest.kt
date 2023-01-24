@@ -22,7 +22,6 @@ class MenuViewModelTest {
 
     @Test
     fun `should uiState is CoachNameInputStage when starting`() {
-        val uiState = viewModel.uiState.value
         assert(uiState.stage is CoachNameInputStage)
     }
 
