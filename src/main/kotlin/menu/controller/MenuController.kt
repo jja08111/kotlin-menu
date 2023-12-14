@@ -32,7 +32,5 @@ class MenuController(
 
     }
 
-    companion object {
-        private val NAME_LENGTH_RANGE = 2..5
     }
 }
