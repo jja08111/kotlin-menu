@@ -5,7 +5,7 @@ class MenuRecommender(
     private val categoryGenerator: CategoryGenerator = RandomCategoryGenerator(),
     private val menuGenerator: MenuGenerator = RandomMenuGenerator()
 ) {
-    private val recommendByWeekday = mutableMapOf<Weekday, WeekdayRecommend>()
+    private val recommendByWeekday = mutableMapOf<Weekday, DayRecommend>()
 
     private val coachNames: List<String>
         get() = team.coachNames
@@ -46,11 +46,11 @@ class MenuRecommender(
             val menuRecommends: List<MenuRecommend> = coachNames.map coachMap@{ coachName ->
                 recommendMenuToCoach(category = category, coachName = coachName)
             }
-            val weekdayRecommend = WeekdayRecommend(
+            val dayRecommend = DayRecommend(
                 category = category,
                 menuRecommends = menuRecommends
             )
-            recommendByWeekday[weekday] = weekdayRecommend
+            recommendByWeekday[weekday] = dayRecommend
         }
         return RecommendResult(recommendByWeekday)
     }
