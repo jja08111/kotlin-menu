@@ -15,6 +15,12 @@ data class Team(
         coach.addUneatableMenuNames(menus)
     }
 
+    fun canEatMenu(coachName: String, menuName: String): Boolean {
+        val coach = coaches.find { it.name == coachName }
+        checkNotNull(coach)
+        return coach.canEat(menuName)
+    }
+
     companion object {
         private val COACH_SIZE_RANGE = 2..5
     }

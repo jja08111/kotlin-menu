@@ -1,6 +1,7 @@
 package menu.controller
 
 import menu.model.Coach
+import menu.model.MenuRecommender
 import menu.model.Team
 import menu.view.InputView
 import menu.view.OutputView
@@ -39,7 +40,14 @@ class MenuController(
     }
 
     fun run() {
+        outputView.printWelcome()
+
         val team = inputTeam()
         inputUneatableMenus(team)
+        val menuRecommender = MenuRecommender(team = team)
+        val result = menuRecommender.recommend()
+
+        outputView.printResult(result, coachNames = team.coachNames)
+        outputView.printComplete()
     }
 }

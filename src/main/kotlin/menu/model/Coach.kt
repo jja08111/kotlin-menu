@@ -14,6 +14,10 @@ data class Coach(
         uneatableMenuNames.addAll(menus)
     }
 
+    fun canEat(menuName: String): Boolean {
+        return !uneatableMenuNames.contains(menuName)
+    }
+
     companion object {
         private val NAME_LENGTH_RANGE = 2..4
         private val UNEATABLE_MENU_LENGTH_RANGE = 0..2
