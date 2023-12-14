@@ -29,6 +29,11 @@ class WeekdayRecommend {
     }
 
     operator fun set(weekday: Weekday, dayRecommend: DayRecommend) {
+        require(canAdd(dayRecommend.category))
+        val menuRecommends = dayRecommend.menuRecommends
+        menuRecommends.forEach {
+            require(!isRecommended(coachName = it.coachName, menuName = it.menuName))
+        }
         recommendByWeekday[weekday] = dayRecommend
     }
 
