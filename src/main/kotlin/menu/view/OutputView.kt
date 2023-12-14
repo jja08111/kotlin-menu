@@ -10,6 +10,10 @@ class OutputView {
         printError("코치 이름이 잘못되었습니다.")
     }
 
+    fun printIllegalUneatableMenuError() {
+        printError("먹지 못하는 메뉴를 잘못 입력했습니다.")
+    }
+
     private fun printError(message: String) {
         println("[ERROR] $message")
     }

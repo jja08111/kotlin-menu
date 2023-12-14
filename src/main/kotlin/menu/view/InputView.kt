@@ -9,4 +9,10 @@ class InputView {
         val line = Console.readLine()
         return line.split(",")
     }
+
+    fun readUneatableMenus(coachName: String): List<String> {
+        println("${coachName}(이)가 못 먹는 메뉴를 입력해 주세요.")
+        val line = Console.readLine()
+        return line.split(",")
+    }
 }
