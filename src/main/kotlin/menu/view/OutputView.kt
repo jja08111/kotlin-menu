@@ -1,8 +1,8 @@
 package menu.view
 
 import menu.model.Category
-import menu.model.RecommendResult
 import menu.model.Weekday
+import menu.model.WeekdayRecommend
 
 class OutputView {
 
@@ -39,16 +39,15 @@ class OutputView {
         println("[ $coachName | $menuLine ]")
     }
 
-    fun printResult(result: RecommendResult, coachNames: List<String>) {
+    fun printResult(weekdayRecommend: WeekdayRecommend, coachNames: List<String>) {
         println("메뉴 추천 결과입니다.")
-        val recommendByWeekday = result.recommendByWeekday
-        val weekdays = recommendByWeekday.keys
-        val weekdayRecommends = recommendByWeekday.values
-        val categories = weekdayRecommends.map { it.category }
+        val weekdays = weekdayRecommend.weekdays
+        val dayRecommends = weekdayRecommend.dayRecommends
+        val categories = dayRecommends.map { it.category }
         printWeekdayLineOfResult(weekdays)
         printCategoriesOfResult(categories)
         coachNames.forEach { coachName ->
-            val menus = result.getMenusBy(coachName = coachName)
+            val menus = weekdayRecommend.getMenusBy(coachName = coachName)
             printRecommendedMenusOfResult(coachName, menus)
         }
         println()

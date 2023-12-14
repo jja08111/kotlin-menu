@@ -45,9 +45,9 @@ class MenuController(
         val team = inputTeam()
         inputUneatableMenus(team)
         val menuRecommender = MenuRecommender(team = team)
-        val result = menuRecommender.recommend()
+        val weekdayRecommend = menuRecommender.recommend()
 
-        outputView.printResult(result, coachNames = team.coachNames)
+        outputView.printResult(weekdayRecommend, coachNames = team.coachNames)
         outputView.printComplete()
     }
 }

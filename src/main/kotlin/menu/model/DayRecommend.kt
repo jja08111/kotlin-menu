@@ -1,14 +1,5 @@
 package menu.model
 
-data class RecommendResult(val recommendByWeekday: Map<Weekday, DayRecommend>) {
-    fun getMenusBy(coachName: String): List<String> {
-        return recommendByWeekday.map {
-            val weekdayRecommend = it.value
-            weekdayRecommend.getMenuBy(coachName)
-        }
-    }
-}
-
 data class DayRecommend(
     val category: Category,
     val menuRecommends: List<MenuRecommend>

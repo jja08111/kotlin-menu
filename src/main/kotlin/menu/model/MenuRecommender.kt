@@ -5,33 +5,30 @@ class MenuRecommender(
     private val categoryGenerator: CategoryGenerator = RandomCategoryGenerator(),
     private val menuGenerator: MenuGenerator = RandomMenuGenerator()
 ) {
-    private val recommendByWeekday = mutableMapOf<Weekday, DayRecommend>()
-
     private val coachNames: List<String>
         get() = team.coachNames
 
-    private fun selectCategory(): Category {
+    private fun WeekdayRecommend.selectCategory(): Category {
         while (true) {
             val category = categoryGenerator.generate()
-            val count = recommendByWeekday.count { it.value.category == category }
-            if (count >= MAX_CATEGORY_COUNT) {
+            if (!canAdd(category)) {
                 continue
             }
             return category
         }
     }
 
-    private fun recommendMenuToCoach(category: Category, coachName: String): MenuRecommend {
+    private fun WeekdayRecommend.recommendMenuToCoach(
+        category: Category,
+        coachName: String
+    ): MenuRecommend {
         while (true) {
             val menuName = menuGenerator.generate(category)
             val canEat = team.canEatMenu(coachName = coachName, menuName = menuName)
             if (!canEat) {
                 continue
             }
-            val alreadyRecommended = recommendByWeekday.any {
-                val weekdayRecommend = it.value
-                weekdayRecommend.isRecommended(coachName = coachName, menuName = menuName)
-            }
+            val alreadyRecommended = isRecommended(coachName = coachName, menuName = menuName)
             if (alreadyRecommended) {
                 continue
             }
@@ -39,24 +36,23 @@ class MenuRecommender(
         }
     }
 
-    fun recommend(): RecommendResult {
-        recommendByWeekday.clear()
+    fun recommend(): WeekdayRecommend {
+        val weekdayRecommend = WeekdayRecommend()
         RECOMMENDED_WEEKDAYS.forEach { weekday ->
-            val category: Category = selectCategory()
+            val category: Category = weekdayRecommend.selectCategory()
             val menuRecommends: List<MenuRecommend> = coachNames.map coachMap@{ coachName ->
-                recommendMenuToCoach(category = category, coachName = coachName)
+                weekdayRecommend.recommendMenuToCoach(category = category, coachName = coachName)
             }
             val dayRecommend = DayRecommend(
                 category = category,
                 menuRecommends = menuRecommends
             )
-            recommendByWeekday[weekday] = dayRecommend
+            weekdayRecommend[weekday] = dayRecommend
         }
-        return RecommendResult(recommendByWeekday)
+        return weekdayRecommend
     }
 
     companion object {
-        private const val MAX_CATEGORY_COUNT = 2
         private val RECOMMENDED_WEEKDAYS = listOf(
             Weekday.Monday,
             Weekday.Tuesday,
