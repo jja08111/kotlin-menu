@@ -37,4 +37,26 @@ class CoachTest {
             coach.addUneatableMenuNames(menus)
         }
     }
+
+    @Test
+    fun `먹을 수 없는 음식으로 canEat 함수를 호출하면 false를 반환`() {
+        val menus = listOf("규동", "우동")
+        val coach = Coach("name")
+        coach.addUneatableMenuNames(menus)
+
+        val canEat = coach.canEat("우동")
+
+        assert(!canEat)
+    }
+
+    @Test
+    fun `먹을 수 있는 음식으로 canEat 함수를 호출하면 true를 반환`() {
+        val menus = listOf("규동", "우동")
+        val coach = Coach("name")
+        coach.addUneatableMenuNames(menus)
+
+        val canEat = coach.canEat("라면")
+
+        assert(canEat)
+    }
 }
