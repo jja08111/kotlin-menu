@@ -31,7 +31,7 @@ class MenuController(
         return Team(coaches = coaches)
     }
 
-    private fun inputUneatableMenus(team: Team): Unit = inputUntilValid(
+    private fun inputUneatableMenus(team: Team) = inputUntilValid(
         onInvalid = outputView::printIllegalUneatableMenuError
     ) {
         val coachNames = team.coachNames
@@ -39,7 +39,6 @@ class MenuController(
             val uneatableMenus = readUneatableMenus(coachName = name)
             team.addUneatableMenuNamesBy(coachName = name, menus = uneatableMenus)
         }
-        return
     }
 
     fun run() {
