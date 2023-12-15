@@ -4,7 +4,12 @@ data class Team(
     private val coaches: List<Coach>
 ) {
     init {
-        require(coaches.size in COACH_SIZE_RANGE)
+        require(coaches.size >= COACH_SIZE_RANGE.first) {
+            "코치는 최소 ${COACH_SIZE_RANGE.first}명 이상 입력해야 합니다."
+        }
+        require(coaches.size <= COACH_SIZE_RANGE.last) {
+            "코치는 최대 ${COACH_SIZE_RANGE.last}명 이하 입력해야 합니다."
+        }
     }
 
     val coachNames: List<String>

@@ -10,12 +10,15 @@ class MenuController(
     private val inputView: InputView = InputView(),
     private val outputView: OutputView = OutputView()
 ) {
-    private inline fun <T> inputUntilValid(onInvalid: () -> Unit, block: InputView.() -> T): T {
+    private inline fun <T> inputUntilValid(
+        onInvalid: (message: String?) -> Unit,
+        block: InputView.() -> T
+    ): T {
         while (true) {
             try {
                 return inputView.block()
             } catch (e: IllegalArgumentException) {
-                onInvalid()
+                onInvalid(e.message)
             }
         }
     }
